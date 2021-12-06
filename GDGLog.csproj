@@ -39,9 +39,6 @@
     <Reference Include="UnityEngine">
       <HintPath>..\..\GDGFramework\Plugins\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\GDGFramework\Plugins\UnityEngine.UI.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Logger\CustomErrorException.cs" />

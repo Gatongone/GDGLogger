@@ -5,4 +5,3 @@ D:\NetLibrary\GDGLog\bin\Debug\UnityEngine.dll
 D:\NetLibrary\GDGLog\obj\Debug\GDGLog.csproj.CopyComplete
 D:\NetLibrary\GDGLog\obj\Debug\GDGLog.dll
 D:\NetLibrary\GDGLog\obj\Debug\GDGLog.pdb
-D:\NetLibrary\GDGLog\obj\Debug\GDGLog.csprojAssemblyReference.cache

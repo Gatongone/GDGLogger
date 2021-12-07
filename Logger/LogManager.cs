@@ -29,7 +29,7 @@ namespace GDG.Base
         {
             if (!EnableWriteIntoLogFile)
                 return;
-            if(File.Exists(FilePath))
+            if(!File.Exists(FilePath))
             {
                 BuildFileAsync(null);
             }
@@ -151,7 +151,7 @@ namespace GDG.Base
             [CallerFilePath] string callerFilePath = "unknown",
             [CallerLineNumber] int callerLineNumber = -1)
         {
-            if (!EnableEditorLog || !EnableLog)
+            if (!EnableConsoleLog || !EnableLog)
                 return;
             var info = MessageFormat(message, tag, invoker, callerFilePath, callerLineNumber);
             Debug.LogFormat(string.Format("<color=#4E6EF2>{0}</color>", info));
@@ -163,15 +163,14 @@ namespace GDG.Base
             if (!Directory.Exists($"{Application.persistentDataPath}/Logger"))
             {
                 DirectoryInfo info = Directory.CreateDirectory($"{Application.persistentDataPath}/Logger");
-                Log.Warning($"创建了文件夹：{Application.persistentDataPath}/Logger");
+                LogManager.LogWarning($"创建了文件夹：{Application.persistentDataPath}/Logger");
             }
 
             if (!File.Exists($"FilePath"))
             {
-                using (FileStream fs = File.Create(FilePath))
-                {
-                    Log.Warning($"创建了日志文件{FilePath}");
-                }
+                File.Create(FilePath).Dispose();
+                LogManager.LogWarning($"创建了日志文件{FilePath}");
+                
             }
             callback?.Invoke();
         }
@@ -181,19 +180,18 @@ namespace GDG.Base
                 return;
             try
             {
-                using (FileStream fs = new FileStream(FilePath , FileMode.Append, FileAccess.Write))
-                {
-                    using (StreamWriter sw = new StreamWriter(fs))
-                    {
-                        sw.WriteLine(infos);
-                    }
-                }
+                FileStream fs = new FileStream(FilePath, FileMode.Append, FileAccess.Write);
+                StreamWriter sw = new StreamWriter(fs);
+                sw.WriteLine(infos);
+                sw.Dispose();
+                fs.Dispose();
+                
             }
             catch { }
         }
         static void ClearFile()
         {
-            using (FileStream fs = new FileStream(FilePath, FileMode.Create, FileAccess.ReadWrite)) { }
+            new FileStream(FilePath, FileMode.Create, FileAccess.ReadWrite).Dispose();
         }
     }
 }
